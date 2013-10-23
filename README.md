@@ -8,7 +8,17 @@ Oh what the hell, another webserver?
 
 Yep.  This one's simpler.  You can use it call-functionally or Sinatra-style, and since it doesn't do anything, it's fast as the dickens.
 
-Assuming you're installed and compiled, here's a Sinatra style example:
+Simpler?  Prove it.
+-------------------
+
+```
+htstub:serve( fun(_) -> "Hello, world!" end ).
+```
+
+That seems overly trivial.
+--------------------------
+
+Assuming you're installed and compiled, here's a Sinatra style example, as what many people think of as "a REST server":
 
 ```
 MyServer = fun
@@ -24,6 +34,30 @@ htstub:rest(MyServer, 8080).
 ```
 
 Now hit [localhost:8080](http://localhost:8080) in a browser, and you should see your site.
+
+But I want the call to be (whatever)
+------------------------------------
+
+This server supports three call notations:
+
+* `:serve` supports `callname(#record)`
+* `:rest` supports `callname(method, path, #record)`
+* `:xrest` supports `callname(method, path, queryparams, accepttype, #record)`
+
+It is likely that `:xrest` will be primarily of interest to [HATEOAS](http://timelessrepo.com/haters-gonna-hateoas) developers.
+
+Application webserver?
+----------------------
+
+HtStub doesn't want to control how you work.
+
+Some people like a top-level server controlling what's beneath by invokation, `httpd`/`mochiweb` style.  HtStub can do that.
+
+Some people want to embed the webserver directly into their application, `yaws` style.
+
+Some people want to provide their webserver as a series of handlers, `cowboy`/`misultin` style.  HtStub can do that.
+
+There's probably other ways to do this too.  :smile:
 
 "Assuming you're installed," he says.
 -------------------------------------
