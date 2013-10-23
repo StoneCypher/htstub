@@ -15,7 +15,7 @@ Simpler?  Prove it.
 htstub:serve( fun(_) -> "Hello, world!" end, 8080 ).
 ```
 
-Now hit [localhost](http://localhost).
+Now hit [localhost:8080](http://localhost:8080).
 
 That seems overly trivial.
 --------------------------
@@ -35,7 +35,7 @@ end.
 htstub:rest(MyServer, 8080).
 ```
 
-Now hit [localhost:8080](http://localhost:8080) in a browser, and you should see your site.
+Now hit [localhost:8081](http://localhost:8081) in a browser, and you should see your site.
 
 But I want the call to be (whatever)
 ------------------------------------
@@ -54,6 +54,8 @@ Why are you opening port 8080?
 On some Unix systems, you might not have access to port 80 without running erlang as root or jumping through hoops, because of some arcane rules about low ports; [it's fixable](#fixinglowports).
 
 But for the getting started tutorial, just use port 8080 instead.
+
+I switch to 8081 so that I don't have to clean up behind myself with `:halt` :smile:
 
 What do you mean by "Application webserver?"
 --------------------------------------------
