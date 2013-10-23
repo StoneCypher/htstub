@@ -23,4 +23,27 @@ end.
 htstub:rest(MyServer, 8080).
 ```
 
-Now hit localhost:8080 in a browser, and you should see your site.
+Now hit (http://localhost:8080)[localhost:8080] in a browser, and you should see your site.
+
+"Assuming you're installed," he says.
+-------------------------------------
+
+There should be `rebar` instructions here, but I haven't written the `rebar` file yet.  (d'oh)
+
+And if you don't do rebar?
+--------------------------
+
+Ok, we can do that.  You're going to have to suffer through this enormous, agonizing workload:
+
+1. Put the files somewhere.  For these instructions, in `/some/where`.
+1. Grab (https://github.com/StoneCypher/scutil.github.com)[the other library] too.
+1. Start up an erlang console, ostensibly through `erl` or `werl`.
+1. `c("/some/where/src/sc.erl").`
+1. `c("/some/where/src/htstub.erl").`
+
+Only true wizard shogun super-stars will complete these instructions.  Amazingly, catastrophically difficult, to be sure.
+
+What's this ScUtil dependency
+-----------------------------
+
+ScUtil is my big "everything goes here by default" library.  HtStub uses a whole lot of random stuff from inside it.  Same author, same code style, same license.
