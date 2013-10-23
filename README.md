@@ -18,7 +18,7 @@ Simpler?  Prove it.
 
 It's simple enough that you can one-liner it from the REPL.  Fire up an `erl` or a `werl` and try:
 
-```
+```erlang
 htstub:serve( fun(_) -> "Hello, world!" end, 8080 ).
 ```
 
@@ -29,7 +29,7 @@ That seems overly trivial.
 
 Assuming you're installed and compiled, here's a Sinatra style example, as what many people think of as "a REST server":
 
-```
+```erlang
 MyServer = fun
   (get,  "",            _) -> "Hello, world! (bare)";
   (get,  "/",           _) -> "Hello, world! (bare root)";
@@ -39,13 +39,13 @@ MyServer = fun
   (_,    _,             _) -> { 501, "Not implemented (womp, womp)" }
 end.
 
-htstub:rest(MyServer, 8080).
+htstub:rest(MyServer, 8081).
 ```
 
 Now hit [localhost:8081](http://localhost:8081) in a browser, and you should see your site.
 
-But I want the call to be (whatever)
-------------------------------------
+But I want the call to be *(whatever)*
+--------------------------------------
 
 This server supports three call notations:
 
@@ -79,11 +79,6 @@ There's probably other ways to do this too.  :smile:
 
 HtStub is not meant to be a standalone product.  It has no access to the filesystem.  It's not a webserver, so much as it is a housing for webserver drivers; hence "application webserver," because it still needs some application to drive its behavior.
 
-"Assuming you're installed," he says.
--------------------------------------
-
-There should be `rebar` instructions here, but I haven't written the `rebar` file yet.  (d'oh)
-
 And if you don't do rebar?
 --------------------------
 
@@ -105,3 +100,10 @@ ScUtil is my big "everything goes here by default" library.  HtStub uses a whole
 Docs?  Examples?
 ----------------
 
+Rebar should have generated them, and they should be in the repo.  But if not:
+
+```erlang
+htstub:gen_docs("/path/to/source", "/path/for/output")
+```
+
+should generate you a new set.  Example webservers are in `servers/`.
