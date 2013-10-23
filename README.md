@@ -12,8 +12,10 @@ Simpler?  Prove it.
 -------------------
 
 ```
-htstub:serve( fun(_) -> "Hello, world!" end ).
+htstub:serve( fun(_) -> "Hello, world!" end, 8080 ).
 ```
+
+Now hit [localhost](http://localhost).
 
 That seems overly trivial.
 --------------------------
@@ -46,8 +48,15 @@ This server supports three call notations:
 
 It is likely that `:xrest` will be primarily of interest to [HATEOAS](http://timelessrepo.com/haters-gonna-hateoas) developers.
 
-Application webserver?
-----------------------
+Why are you opening port 8080?
+------------------------------
+
+On some Unix systems, you might not have access to port 80 without running erlang as root or jumping through hoops, because of some arcane rules about low ports; [it's fixable](#fixinglowports).
+
+But for the getting started tutorial, just use port 8080 instead.
+
+What do you mean by "Application webserver?"
+--------------------------------------------
 
 HtStub doesn't want to control how you work.
 
