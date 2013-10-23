@@ -6,7 +6,7 @@ The HtStub erlang application webserver.
 Oh what the hell, another webserver?
 ------------------------------------
 
-Yep.  This one's simpler.  You can use it call-functionally or Sinatra-style.
+Yep.  This one's simpler.  You can use it call-functionally or Sinatra-style, and since it doesn't do anything, it's fast as the dickens.
 
 Assuming you're installed and compiled, here's a Sinatra style example:
 
@@ -20,7 +20,7 @@ MyServer = fun
   (_,    _,             _) -> { 501, "Not implemented (womp, womp)" }
 end.
 
-htstub:serve(MyServer, 8080).
+htstub:rest(MyServer, 8080).
 ```
 
 Now hit localhost:8080 in a browser, and you should see your site.
