@@ -5,7 +5,8 @@ The HtStub erlang application webserver.
 
 tl;dr
 -----
-##todo put rebar instructions here as cut-paste
+
+(todo whargarbl put rebar instructions here as cut-paste in fenced block)
 
 Oh what the hell, another webserver?
 ------------------------------------
@@ -14,6 +15,8 @@ Yep.  This one's simpler.  You can use it call-functionally or Sinatra-style, an
 
 Simpler?  Prove it.
 -------------------
+
+It's simple enough that you can one-liner it from the REPL.  Fire up an `erl` or a `werl` and try:
 
 ```
 htstub:serve( fun(_) -> "Hello, world!" end, 8080 ).
