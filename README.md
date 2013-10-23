@@ -23,7 +23,7 @@ end.
 htstub:rest(MyServer, 8080).
 ```
 
-Now hit (http://localhost:8080)[localhost:8080] in a browser, and you should see your site.
+Now hit [localhost:8080](http://localhost:8080) in a browser, and you should see your site.
 
 "Assuming you're installed," he says.
 -------------------------------------
@@ -36,7 +36,7 @@ And if you don't do rebar?
 Ok, we can do that.  You're going to have to suffer through this enormous, agonizing workload:
 
 1. Put the files somewhere.  For these instructions, in `/some/where`.
-1. Grab (https://github.com/StoneCypher/scutil.github.com)[the other library] too.
+1. Grab [the other library](https://github.com/StoneCypher/scutil.github.com) too.
 1. Start up an erlang console, ostensibly through `erl` or `werl`.
 1. `c("/some/where/src/sc.erl").`
 1. `c("/some/where/src/htstub.erl").`
