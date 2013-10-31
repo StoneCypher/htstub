@@ -1,5 +1,5 @@
 
--module(hello_world_ws).
+-module(hello_world).
 
 
 
@@ -22,11 +22,11 @@
 %%
 %%  This is meant as first steps with htstub; usage is kept simple.  
 %%
-%%  ```1> htstub:serve( fun hello_world_ws:page/1 ).
+%%  ```1> htstub:serve( fun hello_world:page/1 ).
 %%  <0.45.0>'''
 %%
 %%  That's it.  There's now <a href="http://localhost/">a webserver running</a>, assuming you have 
-%%  rights to port 80.  (If not, `1> htstub:serve( fun hello_world_ws:page/1, 9717 )` or whatever.)
+%%  rights to port 80.  (If not, `htstub:serve( fun hello_world:page/1, 9717 )` or whatever.)
 
 
 page( _ ) ->
