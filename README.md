@@ -69,11 +69,11 @@ What do you mean by "Application webserver?"
 
 HtStub doesn't want to control how you work.
 
-Some people like a top-level server controlling what's beneath by invokation, `httpd`/`mochiweb` style.  HtStub can do that.  Run a server with a function that directly invokes the things you want done.
+Some people like a top-level server controlling what's beneath by invokation, `httpd:`/`mochiweb`/`apache` style.  HtStub can do that.  Run a server with a function that directly invokes the things you want done.
 
-Some people want to embed the webserver directly into their application, `yaws` style.  Write your normal app as expected, then call HtStub from inside.  If convenient, use an HtStub handler which communicates with the main application, probably through message passing.
+Some people want to embed the webserver directly into their application, `yaws`/`appweb`/`KLone` style.  Write your normal app as expected, then call HtStub from inside.  If convenient, use an HtStub handler which communicates with the main application, probably through message passing.
 
-Some people want to provide their webserver as a series of handlers, `cowboy`/`misultin` style.  HtStub can do that.  Treat your work as a series of middlewares which take a call from upstream, possibly work on it, pass it to something downstream, receive a response from downstream, possibly work on it, and pass the response upstream.  From there, you can build a site in a fashion simlar to GoF Chain of Command.
+Some people want to provide their webserver as a series of handlers, `cowboy`/`misultin`/`nginx` style.  HtStub can do that.  Treat your work as a series of middlewares which take a call from upstream, possibly work on it, pass it to something downstream, receive a response from downstream, possibly work on it, and pass the response upstream.  From there, you can build a site in a fashion simlar to GoF Chain of Command.
 
 There's probably other ways to do this too.  :smile:
 
