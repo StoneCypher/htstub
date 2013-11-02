@@ -187,6 +187,14 @@
       serve/1,
       serve/2,
 
+    rest/1,
+      rest/2,
+
+%   xrest/1,
+%     xrest/2,
+
+%   list_valid_status_codes/0,
+
     halt/1,
 
     default_handler/1,
@@ -197,8 +205,6 @@
     int_to_status/1,
 
     parse_uri/1,
-
-    rest/1,
 
     standard_datestring/0,
 
@@ -896,6 +902,14 @@ rest(RestHandler) when is_function(RestHandler) ->
 rest(Config) when is_record(Config, htstub_config) -> 
 
     serve(Config#htstub_config{handler=restify(Config#htstub_config.handler)}).
+
+
+
+
+
+rest(RestHandler, Port) when is_function(RestHandler), is_integer(Port) -> 
+
+    serve(restify(RestHandler), Port).
 
 
 
