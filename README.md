@@ -10,12 +10,14 @@ tl;dr
 
 (todo whargarbl put rebar instructions here as cut-paste in fenced block)
 
+
+
 Oh what the hell, another webserver?
 ------------------------------------
 
-
-
 Yep.  This one's simpler.  You can use it call-functionally or Sinatra-style, and since it doesn't do anything, it's fast as the dickens.
+
+
 
 Simpler?  Prove it.
 -------------------
@@ -27,6 +29,8 @@ htstub:serve( fun(_) -> "Hello, world!" end, 8080 ).
 ```
 
 Now hit [localhost:8080](http://localhost:8080).
+
+
 
 That seems overly trivial.
 --------------------------
@@ -48,6 +52,8 @@ htstub:rest(MyServer, 8081).
 
 Now hit [localhost:8081](http://localhost:8081) in a browser, and you should see your site.
 
+
+
 But I want the call to be *(whatever)*
 --------------------------------------
 
@@ -59,6 +65,8 @@ This server supports three call notations:
 
 It is likely that `:xrest` will be primarily of interest to [HATEOAS](http://timelessrepo.com/haters-gonna-hateoas) developers.
 
+
+
 Why are you opening port 8080?
 ------------------------------
 
@@ -67,6 +75,8 @@ On some Unix systems, you might not have access to port 80 without running erlan
 But for the getting started tutorial, just use port 8080 instead.
 
 I switch to 8081 so that I don't have to clean up behind myself with `:halt` :smile:
+
+
 
 What do you mean by "Application webserver?"
 --------------------------------------------
@@ -83,6 +93,8 @@ There's probably other ways to do this too.  :smile:
 
 HtStub is not meant to be a standalone product.  It has no access to the filesystem.  It's not a webserver, so much as it is a housing for webserver drivers; hence "application webserver," because it still needs some application to drive its behavior.
 
+
+
 And if you don't do rebar?
 --------------------------
 
@@ -96,10 +108,14 @@ Ok, we can do that.  You're going to have to suffer through this enormous, agoni
 
 Only true wizard shogun super-stars will complete these instructions.  Amazingly, catastrophically difficult, to be sure.
 
+
+
 What's this ScUtil dependency
 -----------------------------
 
 ScUtil is my big "everything goes here by default" library.  HtStub uses a whole lot of random stuff from inside it.  Same author, same code style, same license.
+
+
 
 Docs?  Examples?
 ----------------
