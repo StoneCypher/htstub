@@ -3,6 +3,8 @@ htstub
 
 The HtStub erlang application webserver.
 
+
+
 tl;dr
 -----
 
@@ -10,6 +12,8 @@ tl;dr
 
 Oh what the hell, another webserver?
 ------------------------------------
+
+
 
 Yep.  This one's simpler.  You can use it call-functionally or Sinatra-style, and since it doesn't do anything, it's fast as the dickens.
 
