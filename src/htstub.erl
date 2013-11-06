@@ -21,7 +21,7 @@
 %%  @doc HtStub - web development in Erlang as trivial as it <i>could</i> be
 %%
 %%  This is the 2013 rewrite of the original library.
-%%  
+%%
 %%  <h2>Quick Start</h2>
 %%
 %%  <dl>
@@ -106,10 +106,10 @@
 %%    On most Unix systems, you need to jump through some hoops to open a "low port" (a port below 1024.)  Those hoops
 %%    vary system to system, but often involve supervisor escalation, running from a special user with eid, proxying through
 %%    iptables, authbind, setcap and capabilities(7), setuid to start as root [sigh], socat, systemd, inetd/xinetd, kernel
-%%    modules (!), proxying through apache modules (!!), and other such nonsense.  As usual, Solaris had a reasonable 
-%%    response (a config file whitelisting permissions) which nobody remembers.  FreeBSD can get rid of this with the sysctl 
-%%    parameters <tt>net.inet.ip.portrange.reservedlow</tt> and <tt>net.inet.ip.portrange.reservedhigh</tt>.  Helpfully, the 
-%%    default web port is 80, so hosting a webserver on the standard port falls afoul of this.  <i>Windows doesn't care, so 
+%%    modules (!), proxying through apache modules (!!), and other such nonsense.  As usual, Solaris had a reasonable
+%%    response (a config file whitelisting permissions) which nobody remembers.  FreeBSD can get rid of this with the sysctl
+%%    parameters <tt>net.inet.ip.portrange.reservedlow</tt> and <tt>net.inet.ip.portrange.reservedhigh</tt>.  Helpfully, the
+%%    default web port is 80, so hosting a webserver on the standard port falls afoul of this.  <i>Windows doesn't care, so
 %%    Windows devs can happily ignore this</i> (and plan 9 devs and etc.)
 %%  </p>
 %%
@@ -124,7 +124,7 @@
 %%  </p>
 %%
 %%  <p>
-%%    You will see this with any Erlang daemon - indeed a daemon in any language - and the answer won't vary by what app 
+%%    You will see this with any Erlang daemon - indeed a daemon in any language - and the answer won't vary by what app
 %%    is being run inside.  The error looks like this:
 %%  </p>
 %%
@@ -140,7 +140,7 @@
 %%Error in process &lt;0.37.0> with exit value: {{badmatch,{error,eacces}},[{htstub,new_listener_loop,4,[{file,"src/htstub.erl"},{line,551}]}]}</pre>
 %%
 %%  <p>
-%%    So when you're getting started, just start with a high port, so you can do this operating system part later, when you aren't 
+%%    So when you're getting started, just start with a high port, so you can do this operating system part later, when you aren't
 %%    busy figuring this whole thing out from the ground up.
 %%  </p>
 %%
@@ -244,7 +244,7 @@ parse_uri(Uri) ->
 
     % the return notation in http_uri changes between r14 and r15.  sigh.
     { ok, {Scheme, UserInfo, Host, Port, Path, Query} } = case http_uri:parse(Uri) of
-    
+
         { error, X } -> { error, X };
         { ok,    X } -> { ok,    X };  % r15 or later
         X            -> { ok,    X }   % r14 or earlier :\
@@ -272,7 +272,7 @@ parse_uri(Uri) ->
 
         [
             case sc:explode(<<"=">>,list_to_binary(P),2) of
-                [Key] -> 
+                [Key] ->
                     {Key};
                 [Key,RawVal] ->
                     {Key,sc:explode(<<",">>,RawVal)}
@@ -284,7 +284,7 @@ parse_uri(Uri) ->
     end,
 
     [FixedPath, Params] = case sc:explode(";", Path) of
-        [[]]  -> [ "", []     ];     
+        [[]]  -> [ "", []     ];
         [T]   -> [  T, []     ];                  % first unique rule is T for paTh, R for paRams
         [T|R] -> [  T, PPP(R) ]
     end,
@@ -333,12 +333,12 @@ parse_uri(Uri) ->
 
 
 
-    OurParse      = #htstub_uri{ 
-                        scheme       = Scheme, 
-                        user         = Username, 
-                        password     = Password, 
+    OurParse      = #htstub_uri{
+                        scheme       = Scheme,
+                        user         = Username,
+                        password     = Password,
                         host         = list_to_binary(Host),
-                        port         = Port, 
+                        port         = Port,
                         path         = list_to_binary(FixedPath),
                         path_params  = Params,
                         query_params = BinQT,
@@ -487,22 +487,22 @@ body_reformat(Body, Path, Protocol, Method, PHeaders, BodyLength) ->
 
     [LMajor,  LMinor] = sc:explode(<<".">>, PVer),  % todo harden
 
-    PPath = << 
-               <<"http://">>/binary, 
-               Site/binary, 
-               (if Port == <<"">> -> <<"">>; true -> << <<":">>/binary, (list_to_binary(integer_to_list(Port)))/binary>> end)/binary, 
+    PPath = <<
+               <<"http://">>/binary,
+               Site/binary,
+               (if Port == <<"">> -> <<"">>; true -> << <<":">>/binary, (list_to_binary(integer_to_list(Port)))/binary>> end)/binary,
                Path/binary
             >>,
 
-    { ok, #htstub_request{ 
-            request=PPath, 
+    { ok, #htstub_request{
+            request=PPath,
             http_ver={list_to_integer(binary_to_list(LMajor)),list_to_integer(binary_to_list(LMinor))},
-            parsed=parse_uri(PPath), 
-            method=Method, 
-            pheaders=PHeaders, 
-            body=Body, 
-            body_length=BodyLength 
-          } 
+            parsed=parse_uri(PPath),
+            method=Method,
+            pheaders=PHeaders,
+            body=Body,
+            body_length=BodyLength
+          }
     }.
 
     % todo this shouldn't just assume http; it could be https, spdy, etc
@@ -727,13 +727,13 @@ running_version(ServerPid) ->
 
     ServerPid ! { self(), get_running_version },
     receive
-    
+
         { now_running, V } ->
             V
-    
+
         after 1000 ->
             timeout
-    
+
     end.
 
 
@@ -744,13 +744,13 @@ get_boot_options(ServerPid) ->
 
     ServerPid ! { self(), get_boot_options },
     receive
-    
+
         { boot_options, B } ->
             B
-    
+
         after 1000 ->
             timeout
-    
+
     end.
 
 
@@ -765,7 +765,7 @@ default_handler(Request) ->
 
 
 
-serve() -> 
+serve() ->
 
     serve(fun default_handler/1).
 
@@ -773,7 +773,7 @@ serve() ->
 
 
 
-serve(Handler) when is_function(Handler) -> 
+serve(Handler) when is_function(Handler) ->
 
     serve(#htstub_config{handler=Handler});
 
@@ -781,7 +781,7 @@ serve(Handler) when is_function(Handler) ->
 
 
 
-serve(PropListOptions) when is_list(PropListOptions) -> 
+serve(PropListOptions) when is_list(PropListOptions) ->
 
     serve(config_from_plist(PropListOptions));
 
@@ -789,7 +789,7 @@ serve(PropListOptions) when is_list(PropListOptions) ->
 
 
 
-serve(Options) -> 
+serve(Options) ->
 
     spawn(fun() -> bootstrap_loop(Options) end).
 
@@ -797,7 +797,7 @@ serve(Options) ->
 
 
 
-serve(Handler, Port) when is_function(Handler), is_integer(Port), Port >= 0 -> 
+serve(Handler, Port) when is_function(Handler), is_integer(Port), Port >= 0 ->
 
     serve(#htstub_config{handler=Handler, port=Port}).
 
@@ -883,7 +883,7 @@ nice_method(Other)         -> Other.
 
 
 
-restify(RestishHandler) -> 
+restify(RestishHandler) ->
 
     fun(Result) -> RestishHandler(nice_method(Result#htstub_request.method), Result#htstub_request.parsed#htstub_uri.path, Result) end.
 
@@ -891,7 +891,7 @@ restify(RestishHandler) ->
 
 
 
-rest(RestHandler) when is_function(RestHandler) -> 
+rest(RestHandler) when is_function(RestHandler) ->
 
     serve(restify(RestHandler));
 
@@ -899,7 +899,7 @@ rest(RestHandler) when is_function(RestHandler) ->
 
 
 
-rest(Config) when is_record(Config, htstub_config) -> 
+rest(Config) when is_record(Config, htstub_config) ->
 
     serve(Config#htstub_config{handler=restify(Config#htstub_config.handler)}).
 
@@ -907,7 +907,7 @@ rest(Config) when is_record(Config, htstub_config) ->
 
 
 
-rest(RestHandler, Port) when is_function(RestHandler), is_integer(Port) -> 
+rest(RestHandler, Port) when is_function(RestHandler), is_integer(Port) ->
 
     serve(restify(RestHandler), Port).
 
@@ -1048,8 +1048,8 @@ config_from_plist(Config, PList) ->
 %%
 %% @since 2.0.3
 
--spec test() -> 
-    ok   | 
+-spec test() ->
+    ok   |
     error.
 
 test() ->

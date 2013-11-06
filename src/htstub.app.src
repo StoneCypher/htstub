@@ -1,0 +1,12 @@
+{application, htstub,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { htstub_app, []}},
+  {env, []}
+ ]}.
