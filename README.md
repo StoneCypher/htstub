@@ -57,11 +57,13 @@ Now hit [localhost:8081](http://localhost:8081) in a browser, and you should see
 But I want the call to be *(whatever)*
 --------------------------------------
 
-This server supports three call notations:
+This server supports five call notations:
 
 * `:serve` supports `callname(#record)`
 * `:rest` supports `callname(method, path, #record)`
 * `:xrest` supports `callname(method, path, queryparams, accepttype, #record)`
+* `:muxrest` supports `callname(domain, method, path, queryparams, accepttype, #record)`
+* `:imuxrest` supports `callname(domain, method, path, queryparams, accepttype, languages, #record)`
 
 It is likely that `:xrest` will be primarily of interest to [HATEOAS](http://timelessrepo.com/haters-gonna-hateoas) developers.
 
