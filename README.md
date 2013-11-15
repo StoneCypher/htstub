@@ -128,4 +128,4 @@ Rebar should have generated them, and they should be in the repo.  But if not:
 htstub:gen_docs("/path/to/source", "/path/for/output")
 ```
 
-should generate you a new set.  Example webservers are in `servers/`.
+should generate you a new set.  Example webservers are in `src/examples/`; there's a recommended [order of reading](/src/examples/README.md).
