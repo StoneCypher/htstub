@@ -129,3 +129,12 @@ htstub:gen_docs("/path/to/source", "/path/for/output")
 ```
 
 should generate you a new set.  Example webservers are in `src/examples/`; there's a recommended [order of reading](/src/examples/README.md).
+
+
+
+Endnotes
+--------
+
+Are you using my webserver?  Please let me know.  I'm curious!
+
+If you want to reach me, try `my github account name at gmail dot com`, please.  Thanks `:)`
