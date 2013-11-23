@@ -65,7 +65,8 @@ This server supports five call notations:
 * `:muxrest` supports `callname(domain, method, path, queryparams, accepttype, #record)`
 * `:imuxrest` supports `callname(domain, method, path, queryparams, accepttype, languages, #record)`
 
-It is likely that `:xrest` will be primarily of interest to [HATEOAS](http://timelessrepo.com/haters-gonna-hateoas) developers.
+It is likely that `:xrest` will be primarily of interest to [HATEOAS](http://timelessrepo.com/haters-gonna-hateoas) developers.  
+MuxRest just adds multiplexing over domains, and imuxrest handles routing by language accept headers.
 
 
 
