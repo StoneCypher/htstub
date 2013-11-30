@@ -143,7 +143,7 @@ If you want to reach me, try `my github account name at gmail dot com`, please. 
 
 
 
-Polemic
--------
+Polemic :neckbeard:
+-------------------
 
-HtStub is MIT licensed, because viral licenses and language modification are evil.  Free is only free if it's free to everyone.
+`htstub` is MIT licensed, because viral licenses and newspeak language modification are evil.  Free is ***only*** free when it's free for everyone.
