@@ -140,3 +140,10 @@ Endnotes
 Are you using my webserver?  Please let me know.  I'm curious!
 
 If you want to reach me, try `my github account name at gmail dot com`, please.  Thanks `:)`
+
+
+
+Polemic
+-------
+
+HtStub is MIT licensed, because viral licenses and language modification are evil.  Free is only free if it's free to everyone.
