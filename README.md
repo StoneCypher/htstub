@@ -114,6 +114,20 @@ Only true wizard shogun super-stars will complete these instructions.  Amazingly
 
 
 
+
+So it's simple?  That's it?
+---------------------------
+
+Actually I think simplicity is pretty difficult and pretty valuable.  Being able to stand up a working server within seconds of compiling, with no configuration, seems fairly three one three three seven in my book.
+
+But, no: `htstub` is an odd beast with other merits.  It's stochastically tested using `proper`, and over time should become extensively so.  `htstub` supports the semi-forgotten [URL Matrix Parameter](http://www.w3.org/DesignIssues/MatrixURIs.html) recommendation that Yahoo! and a few novel frameworks seem to like.  `htstub` comes with some middlewares to adapt in functionality.
+
+`htstub` is fast, too.  There are significant pain points as of this writing, which is why no benchmarks yet, but once they're fixed, benches soon.  One of the benefits of doing nothing is how little you have to do to finish.
+
+No-config servers that eat a function are surprisingly useful.  Give it a try; you'll see.
+
+
+
 What's this ScUtil dependency
 -----------------------------
 
