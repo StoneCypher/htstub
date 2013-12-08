@@ -169,6 +169,10 @@
 
 -module(htstub).
 
+
+
+
+
 -include_lib("eunit/include/eunit.hrl").
 
 
@@ -221,7 +225,7 @@
 
 
 
--include("htstub.hrl").
+-include("../include/htstub.hrl").
 
 
 
