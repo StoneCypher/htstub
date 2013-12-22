@@ -1,4 +1,3 @@
-
 -module(htstub_tests).
 -compile(export_all).
 
@@ -7,7 +6,7 @@
 
 
 -include_lib("eunit/include/eunit.hrl").
--include("htstub.hrl").
+-include("../include/htstub.hrl").
 
 
 
