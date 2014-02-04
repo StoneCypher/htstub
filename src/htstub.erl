@@ -186,6 +186,7 @@
     lib_version/0,
     running_version/1,
     get_boot_options/1,
+    get_param/2,
 
     serve/0,
       serve/1,
@@ -193,6 +194,9 @@
 
     rest/1,
       rest/2,
+
+    prest/1,
+      prest/2,
 
 %   xrest/1,
 %     xrest/2,
@@ -1038,6 +1042,167 @@ config_from_plist(Config, PList) ->
 
 
 
+
+
+%% TODO: needs to be rewritten
+%% should, at a minimum, not be doing the traversal ourselves,
+%% also, we can make these ids into atoms  --machinshin
+parse_route_for_params( [], Acc, false ) ->
+    string:tokens( lists:reverse(Acc), ":" );
+
+parse_route_for_params( [ $/ | T ], Acc, true ) ->
+    parse_route_for_params(T, Acc, false);
+
+parse_route_for_params( [ $: | T], Acc, false ) ->
+    parse_route_for_params( T, ":" ++ Acc, true );
+
+parse_route_for_params( [H | T ], Acc, true ) ->
+    parse_route_for_params( T, [H] ++ Acc, true );
+
+parse_route_for_params( [ _ | T ], Acc, false ) ->
+    parse_route_for_params( T, Acc, false )
+.
+
+parse_route_for_params( Url ) ->
+    parse_route_for_params( Url ++ "/", [], false )
+.
+
+
+
+
+
+%% TODO : this function needs to be totally rewritten later, cause it's kinda hideous
+%% end case, reverse the accumulator and tokenize over the ":" we inserted as a seperator
+%% --machinshin
+parse_url_for_params( [], _, Acc, false ) ->
+    { ok, string:tokens( lists:reverse(Acc), ":" ) };
+
+%identical starting character, non-matching state
+parse_url_for_params( [ H | R1 ] , [ H | R2 ], Acc, false ) ->
+    parse_url_for_params( R1, R2, Acc, false );
+
+% found starting ':', walk/save right part of tree,
+% also insert ':' to use as seperator later when tokenizing
+parse_url_for_params( R1 = [ $: | _ ], [ H | R2 ], Acc, false ) ->
+    parse_url_for_params( R1, R2, [ H ] ++ [ $: ] ++ Acc, right );
+
+%last character of string in right side, call base case
+parse_url_for_params( [ $: | _ ], $/  , Acc, right )->
+    parse_url_for_params( [], [], Acc, false );
+
+% finished capturing, walk left part of tree to next $/
+parse_url_for_params( R1 = [ $: | _ ], [ $/ | R2 ], Acc, right ) ->
+    parse_url_for_params( R1, R2, Acc, left );
+
+% go through right part of tree to $/ saving characters
+parse_url_for_params( R1 = [ $: | _ ], [ H | R2 ], Acc, right ) when H =/= $/ ->
+    parse_url_for_params( R1, R2, [H] ++ Acc, right );
+
+%edgecase- hit end of right list, we call base case
+parse_url_for_params( _R1, [], Acc, right )->
+    parse_url_for_params( [], [], Acc, false );
+
+parse_url_for_params( [ $: | R1 ], R2, Acc, left )->
+    parse_url_for_params( R1, R2, Acc, left );
+
+parse_url_for_params( [ H | R1 ], R2, Acc, left ) when H =/= $/ ->
+    parse_url_for_params( R1, R2, Acc, left );
+
+parse_url_for_params( [ $/ | R1 ], R2, Acc, left ) ->
+    parse_url_for_params( R1, R2, Acc, false );
+
+%done l/r walking the tree, now back to walking both sides
+parse_url_for_params( [ $/ | R1 ] , [ $/ | R2 ], Acc, left ) ->
+    parse_url_for_params( R1, R2, Acc, false ).
+
+%using exceptions here is a total hack,
+%we should just exit out early in the code above and return nomatch
+parse_url_for_params( Route, Url ) ->
+    % TODO hack , try-catching isn't the best way to handle this,
+    % it's an expected failure case
+    % -- machinshin
+    try parse_url_for_params( Route ++ "/" ++ [], Url ++ "/" ++ [], [], false ) of
+        { ok, Params } when is_list(Params) -> { ok, Params }
+    catch _:_-> nomatch
+    end
+.
+
+
+
+
+
+% TODO: i'm doing my own list traversal, this isn't good :( --machinshin
+traverse_prest( [], _, _, _ ) ->
+
+    { 404, int_to_status( 404 ) };
+
+% but it's unclear to me how to write a function to break a traversal
+% using the lists module, seems lists:dropwhile should maybe be it?
+% but then i'd have to call parse_url_for_params twice?!?!
+traverse_prest([{ RouteParams, { M1, Route, Args, Fun }} | T ], Url, Method, Result )
+                when M1 =:= Method, is_atom(M1), is_atom(Method) ->
+
+    case parse_url_for_params( binary_to_list(Route), Url ) of
+        { ok, UrlParams } ->
+                PT = [{ R, P } || R <- RouteParams, P <- UrlParams ],
+                Fun( PT, Result );
+        nomatch -> traverse_prest( T, Url, Method, Result )
+    end;
+
+traverse_prest( [ { _, { _, _, _, _} } | T ], Url, Method, Result ) ->
+
+    traverse_prest(T, Url, Method, Result )
+.
+
+traverse_prest( RouteList, Result ) ->
+
+    Url = binary_to_list( Result#htstub_request.parsed#htstub_uri.path),
+    Method = nice_method(Result#htstub_request.method),
+    traverse_prest( RouteList, Url, Method, Result )
+.
+
+
+
+
+
+prestify( RouteList ) ->
+    fun( Result ) -> traverse_prest( RouteList, Result ) end
+.
+
+
+
+
+
+%% TODO: also clean this up, no need to do the list traversal ourselves
+%% --machinshin
+prest( [], RAcc, Port ) ->
+    Acc = lists:reverse(RAcc),
+    serve( prestify( Acc ), Port )
+;
+
+prest( [ Tup = { Method, Route, Args, Fun } | Routes ], [], Port ) ->
+    RouteParams = parse_route_for_params(binary_to_list(Route)),
+    prest( Routes, [ { RouteParams , Tup } ] , Port );
+
+
+prest( [ Tup = { Method, Route, Args, Fun } | Routes ], RAcc, Port ) ->
+    RouteParams = parse_route_for_params(binary_to_list(Route)),
+    prest( Routes, RAcc ++ [{ RouteParams, Tup }], Port )
+.
+
+prest( Routes, Port ) when is_list( Routes ), is_integer( Port ) ->
+    prest( Routes, [], Port )
+.
+
+prest( Routes ) when is_list( Routes ) ->
+    prest( Routes, 80 )
+.
+
+%% abstracting this away because i know this impl will change,
+%% so don't affect clients --machinshin
+get_param(Params, Id) ->
+    proplists:get_value(atom_to_list( Id ), Params)
+.
 
 
 %% @doc (not testworthy) Runs the test suite in terse form. ``` c("wherever/htstub.erl").
