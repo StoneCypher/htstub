@@ -54,7 +54,7 @@ Now hit [localhost:8081](http://localhost:8081) in a browser, and you should see
 
 
 
-What about Route Params, you ask?
+What about route params, you ask?
 ---------------------------------
 
 Done! We got em!
