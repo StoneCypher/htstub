@@ -221,7 +221,11 @@
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Private exports, do not use
 
-    loop_upgrade/2
+    loop_upgrade/2,
+
+    parse_url_for_params/2,  % only exposed for eunit
+
+    parse_route_for_params/1 % only exposed for eunit
 
 ]).
 

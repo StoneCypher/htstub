@@ -12,7 +12,7 @@
 
 
 
-%http_uri:parse("https://bob:bobby@www.lunatech.com:8080/file;p=1?q=2#third"). 
+%http_uri:parse("https://bob:bobby@www.lunatech.com:8080/file;p=1?q=2#third").
 %{ok,{https,"bob:bobby","www.lunatech.com",8080,"/file;p=1",
 %           "?q=2#third"}}
 
@@ -21,12 +21,12 @@
 
 expected_hard_parse() ->
 
-    #htstub_uri{ 
-        scheme       = https, 
-        user         = <<"bob">>, 
-        password     = <<"bobby">>, 
-        host         = <<"www.lunatech.com">>, 
-        port         = 8080, 
+    #htstub_uri{
+        scheme       = https,
+        user         = <<"bob">>,
+        password     = <<"bobby">>,
+        host         = <<"www.lunatech.com">>,
+        port         = 8080,
         path         = <<"/file">>,
         path_params  = [{<<"p">>,[<<"1">>]}],
         query_params = [{<<"q">>,[<<"2">>]}],
@@ -37,14 +37,14 @@ expected_hard_parse() ->
 
 
 
-expected_harder_parse() -> 
-    
-    #htstub_uri{ 
-        scheme       = https, 
-        user         = <<"bob">>, 
-        password     = <<"bobby">>, 
-        host         = <<"www.lunatech.com">>, 
-        port         = 8080, 
+expected_harder_parse() ->
+
+    #htstub_uri{
+        scheme       = https,
+        user         = <<"bob">>,
+        password     = <<"bobby">>,
+        host         = <<"www.lunatech.com">>,
+        port         = 8080,
         path         = <<"/file">>,
         path_params  = [{<<"p">>,[<<"1">>,<<"2">>,<<"3">>]},{<<"q">>,[<<"1">>]},{<<"r">>},{<<"saa">>},{<<"taa">>,[<<"1">>,<<"2">>,<<"">>]},{<<"u">>}],
         query_params = [{<<"r">>},{<<"q">>,[<<"2,3">>,<<"4">>]},{<<"waa">>,[<<"1,2">>]}],
@@ -55,14 +55,14 @@ expected_harder_parse() ->
 
 
 
-expected_easy_parse() -> 
-    
-    #htstub_uri{ 
-        scheme       = http, 
-        user         = undefined, 
-        password     = undefined, 
-        host         = <<"foo.com">>, 
-        port         = 80, 
+expected_easy_parse() ->
+
+    #htstub_uri{
+        scheme       = http,
+        user         = undefined,
+        password     = undefined,
+        host         = <<"foo.com">>,
+        port         = 80,
         path         = <<"/">>,
         path_params  = [],
         query_params = [],
@@ -103,6 +103,78 @@ rest_test_() ->
 %       { "Forced fail, not implemented", ?_assert( false =:= true ) }
 
     ] }.
+
+
+
+
+
+parse_route_for_param_test_() ->
+
+    SingleIdRoute = "/article/:id",
+    MultipleIdRoute = "/author/:id/articles/:article_id",
+
+    SingleIdExpected = [ "id" ],
+    MultipleIdExpected = [ "id", "article_id" ],
+
+    { "Route Params Parsing Test", [
+        { "Single Id Route", ?_assert( htstub:parse_route_for_params(SingleIdRoute) =:= SingleIdExpected )},
+        { "Multiple Id Route", ?_assert( htstub:parse_route_for_params(MultipleIdRoute) =:= MultipleIdExpected )}
+    ]}
+.
+
+
+
+
+
+parse_url_for_param_test_() ->
+
+    SingleIdRoute = "/article/:id",
+    SingleIdUrl = "/article/15",
+    SingleExpected = { ok, [ "15" ]},
+
+    MultipleIdRoute = "/author/:id/articles/:article_id",
+    MultipleIdUrl= "/author/100/articles/15",
+
+    MultipleExpected = { ok, [ "100", "15" ]},
+
+    { "Url Params Parsing Test", [
+        { "Single Route/Url Param ", ?_assert( htstub:parse_url_for_params(SingleIdRoute, SingleIdUrl) =:= SingleExpected )},
+        { "Multiple Route/Url Param", ?_assert( htstub:parse_url_for_params(MultipleIdRoute, MultipleIdUrl) =:= MultipleExpected )}
+    ]}
+.
+
+
+
+
+
+prestify_test() ->
+    SingleIdRoute = "/articles/:id",
+    SingleIdUrl = "/articles/15",
+    SingleExpected = { 200, [{"id","15"}]},
+
+    MultipleIdRoute = "/authors/:id/articles/:article_id",
+    MultipleIdUrl= "/authors/100/articles/15",
+
+    MultipleExpected = { 200, [{"id", "15"}, {"article_id", "100" }]},
+
+    SingleHandler = fun( Params, Req ) -> { 200, Params } end,
+
+    MultiHandler = fun( Params, Req ) -> {200, Params} end,
+
+    Routes = [
+        { get, <<"/articles/:id">>, [], SingleHandler },
+        { get, <<"/authors/:id/articles/:article_id">>, [], MultiHandler }
+    ],
+    
+    Pid = htstub:prest( Routes, 8329 ),
+    SingleReturn = sc:htget("http://localhost:8329/articles/15"),
+    MultipleReturn = sc:htget("http://localhost:8329/authors/100/article/15"),
+    { "P-REST router tests", [
+        { "Correct result", ?_assert( SingleReturn =:= SingleExpected)},
+        { "Correct result", ?_assert( MultipleReturn =:= MultipleExpected)}
+    ]},
+    htstub:halt(Pid)
+.
 
 
 
