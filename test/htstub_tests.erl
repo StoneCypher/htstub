@@ -110,8 +110,8 @@ rest_test_() ->
 
 parse_route_for_param_test_() ->
 
-    SingleIdRoute = "/article/:id",
-    MultipleIdRoute = "/author/:id/articles/:article_id",
+    SingleIdRoute = "/articles/:id",
+    MultipleIdRoute = "/authors/:id/articles/:article_id",
 
     SingleIdExpected = [ "id" ],
     MultipleIdExpected = [ "id", "article_id" ],
@@ -128,12 +128,12 @@ parse_route_for_param_test_() ->
 
 parse_url_for_param_test_() ->
 
-    SingleIdRoute = "/article/:id",
-    SingleIdUrl = "/article/15",
+    SingleIdRoute = "/articles/:id",
+    SingleIdUrl = "/articles/15",
     SingleExpected = { ok, [ "15" ]},
 
-    MultipleIdRoute = "/author/:id/articles/:article_id",
-    MultipleIdUrl= "/author/100/articles/15",
+    MultipleIdRoute = "/authors/:id/articles/:article_id",
+    MultipleIdUrl= "/authors/100/articles/15",
 
     MultipleExpected = { ok, [ "100", "15" ]},
 

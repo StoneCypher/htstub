@@ -444,7 +444,7 @@ block_on_parse_http(ConnectedSocket) ->
 
 parse_body(ConnectedSocket, Body, Path, Protocol, Method, PHeaders) ->
 
-    FinalBodyLength = list_to_integer(proplists:get_value("Content-Length", PHeaders, "0")),
+    FinalBodyLength = binary_to_integer(proplists:get_value(<<"Content-Length">>, PHeaders, <<"0">>)),
     parse_body(ConnectedSocket, Body, Path, Protocol, Method, PHeaders, size(Body), FinalBodyLength).
 
 
@@ -1148,7 +1148,7 @@ traverse_prest([{ RouteParams, { M1, Route, Args, Fun }} | T ], Url, Method, Res
 
     case parse_url_for_params( binary_to_list(Route), Url ) of
         { ok, UrlParams } ->
-                PT = [{ R, P } || R <- RouteParams, P <- UrlParams ],
+                PT = lists:zip(RouteParams, UrlParams),
                 Fun( PT, Result );
         nomatch -> traverse_prest( T, Url, Method, Result )
     end;
@@ -1205,7 +1205,11 @@ prest( Routes ) when is_list( Routes ) ->
 %% abstracting this away because i know this impl will change,
 %% so don't affect clients --machinshin
 get_param(Params, Id) ->
-    proplists:get_value(atom_to_list( Id ), Params)
+    R = proplists:get_value(atom_to_list(Id), Params),
+    case string:to_integer(R) of
+        { error, _ } -> R;
+        { Value, _ } -> Value
+    end
 .
 
 
