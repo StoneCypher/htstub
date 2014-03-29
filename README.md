@@ -57,14 +57,14 @@ Now hit [localhost:8081](http://localhost:8081) in a browser, and you should see
 What about route params, you ask?
 ---------------------------------
 
-Done! We got em!
+Done.
 
 ```erlang
-  handler( Params, Req ) ->
+handler( Params, Req ) ->
     Value = htstub:get_param(Params, id ),
-    "You gave me: " ++ Value
-  .
-  htstub:prest( [ { get, <<"/index/:id">>, _, handler/2 } ], 8082).
+    "You gave me: " ++ Value.
+    
+htstub:prest( [ { get, <<"/index/:id">>, _, handler/2 } ], 8082).
 ```
 
 Now hit [localhost:8081/index/15](http://localhost:8081/index/15) in a browser.
@@ -78,7 +78,7 @@ This server supports six call notations:
 
 * `:serve` supports `callname(#record)`
 * `:rest` supports `callname(method, path, #record)`
-* `:prest supports callname( method, path, routeparams, #record )`
+* `:prest` supports `callname( method, path, routeparams, #record )`
 * `:xrest` supports `callname(method, path, queryparams, accepttype, #record)`
 * `:muxrest` supports `callname(domain, method, path, queryparams, accepttype, #record)`
 * `:imuxrest` supports `callname(domain, method, path, queryparams, accepttype, languages, #record)`
