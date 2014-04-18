@@ -398,7 +398,7 @@ return_result(ConnectedSocket, Response) when is_binary(Response) ->
 
 return_result(ConnectedSocket, {Status, Response}) when is_integer(Status), is_list(Response) ->
 
-    return_result(ConnectedSocket, {Status, [{"Date",standard_datestring()},{"Content-Type","text/html"},{"Content-Length",integer_to_list(length(Response))}], Response});
+    return_result(ConnectedSocket, {Status, [{"Server","htstub"},{"Date",standard_datestring()},{"Content-Type","text/html"},{"Content-Length",integer_to_list(length(Response))}], Response});
 
 
 
