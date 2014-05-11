@@ -8,7 +8,7 @@ The HtStub erlang application webserver.
 tl;dr
 -----
 
-(todo whargarbl put rebar instructions here as cut-paste in fenced block)
+```rebar get-deps compile```
 
 
 
