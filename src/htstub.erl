@@ -1083,40 +1083,50 @@ parse_url_for_params( [], _, Acc, false ) ->
 
 %identical starting character, non-matching state
 parse_url_for_params( [ H | R1 ] , [ H | R2 ], Acc, false ) ->
+    io:format("false H~p|R1-~p == H|R2-~p Acc:~p~n", [H, R1, R2, Acc]),
     parse_url_for_params( R1, R2, Acc, false );
 
 % found starting ':', walk/save right part of tree,
 % also insert ':' to use as seperator later when tokenizing
 parse_url_for_params( R1 = [ $: | _ ], [ H | R2 ], Acc, false ) ->
+    io:format("right R1= $:|_ H~p, R2:~p Acc:~p~n", [H,R2, Acc]),
     parse_url_for_params( R1, R2, [ H ] ++ [ $: ] ++ Acc, right );
 
 %last character of string in right side, call base case
 parse_url_for_params( [ $: | _ ], $/  , Acc, right )->
+    io:format("right R1= $:|_ R2=$/ Acc:~p~n", [Acc]),
     parse_url_for_params( [], [], Acc, false );
 
 % finished capturing, walk left part of tree to next $/
 parse_url_for_params( R1 = [ $: | _ ], [ $/ | R2 ], Acc, right ) ->
+    io:format("right R1= $:|_ H:~p $/R2:~p Acc:~p ~n", [R1, R2, Acc]),
     parse_url_for_params( R1, R2, Acc, left );
 
 % go through right part of tree to $/ saving characters
 parse_url_for_params( R1 = [ $: | _ ], [ H | R2 ], Acc, right ) when H =/= $/ ->
+    io:format("right R1= $:|_ H:~p R2:~p Acc:~p ~n", [H, R2, Acc]),
     parse_url_for_params( R1, R2, [H] ++ Acc, right );
 
 %edgecase- hit end of right list, we call base case
 parse_url_for_params( _R1, [], Acc, right )->
+    io:format("right _R1~p Acc:~p ~n", [_R1, Acc]),
     parse_url_for_params( [], [], Acc, false );
 
 parse_url_for_params( [ $: | R1 ], R2, Acc, left )->
+    io:format("left when $:=HR1~pR2:~p Acc:~p ~n", [R1,R2,Acc]),
     parse_url_for_params( R1, R2, Acc, left );
 
 parse_url_for_params( [ H | R1 ], R2, Acc, left ) when H =/= $/ ->
+    io:format("left when =/= H~pR1~pR2:~p Acc:~p ~n", [H,R1,R2,Acc]),
     parse_url_for_params( R1, R2, Acc, left );
 
 parse_url_for_params( [ $/ | R1 ], R2, Acc, left ) ->
+    io:format("left R1 ~p R2:~p Acc:~p ~n", [R1,R2, Acc ]),
     parse_url_for_params( R1, R2, Acc, false );
 
 %done l/r walking the tree, now back to walking both sides
 parse_url_for_params( [ $/ | R1 ] , [ $/ | R2 ], Acc, left ) ->
+    io:format("left R1 ~p R2:~p ~n", [R1,R2]),
     parse_url_for_params( R1, R2, Acc, false ).
 
 %using exceptions here is a total hack,

@@ -147,69 +147,69 @@ parse_url_for_param_test_() ->
 
 
 
-prestify_test() ->
-    SingleIdRoute = "/articles/:id",
-    SingleIdUrl = "/articles/15",
-    SingleExpected = { 200, [{"id","15"}]},
+%prestify_test() ->
+    %SingleIdRoute = "/articles/:id",
+    %SingleIdUrl = "/articles/15",
+    %SingleExpected = { 200, [{"id","15"}]},
 
-    MultipleIdRoute = "/authors/:id/articles/:article_id",
-    MultipleIdUrl= "/authors/100/articles/15",
+    %MultipleIdRoute = "/authors/:id/articles/:article_id",
+    %MultipleIdUrl= "/authors/100/articles/15",
 
-    MultipleExpected = { 200, [{"id", "15"}, {"article_id", "100" }]},
+    %MultipleExpected = { 200, [{"id", "15"}, {"article_id", "100" }]},
 
-    SingleHandler = fun( Params, Req ) -> { 200, Params } end,
+    %SingleHandler = fun( Params, Req ) -> { 200, Params } end,
 
-    MultiHandler = fun( Params, Req ) -> {200, Params} end,
+    %MultiHandler = fun( Params, Req ) -> {200, Params} end,
 
-    Routes = [
-        { get, <<"/articles/:id">>, [], SingleHandler },
-        { get, <<"/authors/:id/articles/:article_id">>, [], MultiHandler }
-    ],
+    %Routes = [
+        %{ get, <<"/articles/:id">>, [], SingleHandler },
+        %{ get, <<"/authors/:id/articles/:article_id">>, [], MultiHandler }
+    %],
     
-    Pid = htstub:prest( Routes, 8329 ),
-    SingleReturn = sc:htget("http://localhost:8329/articles/15"),
-    MultipleReturn = sc:htget("http://localhost:8329/authors/100/article/15"),
-    { "P-REST router tests", [
-        { "Correct result", ?_assert( SingleReturn =:= SingleExpected)},
-        { "Correct result", ?_assert( MultipleReturn =:= MultipleExpected)}
-    ]},
-    htstub:halt(Pid)
-.
+    %Pid = htstub:prest( Routes, 8329 ),
+    %SingleReturn = sc:htget("http://localhost:8329/articles/15"),
+    %MultipleReturn = sc:htget("http://localhost:8329/authors/100/article/15"),
+    %{ "P-REST router tests", [
+        %{ "Correct result", ?_assert( SingleReturn =:= SingleExpected)},
+        %{ "Correct result", ?_assert( MultipleReturn =:= MultipleExpected)}
+    %]},
+    %htstub:halt(Pid)
+%.
 
 
 
 
 
-serve_test_() ->
+%serve_test_() ->
 
-    Basic       = htstub:serve(fun(_) -> "Serve test" end, 8999),
-    BasicReturn = sc:htget("http://localhost:8999"),
+    %Basic       = htstub:serve(fun(_) -> "Serve test" end, 8999),
+    %BasicReturn = sc:htget("http://localhost:8999"),
 
-    htstub:halt(Basic),
+    %htstub:halt(Basic),
 
-    { "serve() tests", [
+    %{ "serve() tests", [
 
-        { "Serve on 8999",  ?_assert( is_pid( Basic ) ) },
-        { "Correct result", ?_assert( BasicReturn == {200, "Serve test"} ) }
+        %{ "Serve on 8999",  ?_assert( is_pid( Basic ) ) },
+        %{ "Correct result", ?_assert( BasicReturn == {200, "Serve test"} ) }
 
-    ] }.
-
-
+    %] }.
 
 
 
-halt_test_() ->
 
-    Basic = htstub:serve(fun(_) -> "Halt test" end, 8999),
-    sc:htget("http://localhost:8999"),  % todo comeback whargarbl known bug: won't halt before first use
 
-    htstub:halt(Basic),
+%halt_test_() ->
 
-    RunningAtEnd = is_process_alive(Basic),
+    %Basic = htstub:serve(fun(_) -> "Halt test" end, 8999),
+    %sc:htget("http://localhost:8999"),  % todo comeback whargarbl known bug: won't halt before first use
 
-    { "halt() tests", [
+    %htstub:halt(Basic),
 
-        { "Setup on 8999",  ?_assert( is_pid( Basic ) ) },
-        { "Correct result", ?_assert( false == RunningAtEnd ) }
+    %RunningAtEnd = is_process_alive(Basic),
 
-    ] }.
+    %{ "halt() tests", [
+
+        %{ "Setup on 8999",  ?_assert( is_pid( Basic ) ) },
+        %{ "Correct result", ?_assert( false == RunningAtEnd ) }
+
+    %] }.
