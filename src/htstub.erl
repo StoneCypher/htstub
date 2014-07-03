@@ -630,7 +630,7 @@ server_listener_loop(ListeningSocket, Handler) ->
     case gen_tcp:accept(ListeningSocket) of
 
         { ok, ConnectedSocket } ->
-            spawn(fun() -> handle_new_socket(ConnectedSocket, Handler) end),
+            proc_lib:spawn(fun() -> handle_new_socket(ConnectedSocket, Handler) end),
             server_listener_loop(ListeningSocket, Handler);
 
         { error, closed } ->
@@ -660,7 +660,7 @@ spawn_link_new_listener(Address, AddressType, Port, Handler) ->
     LinkRef = make_ref(),
     Host    = self(),
 
-    Pid = spawn_link(fun() -> new_listener_loop(Address, AddressType, Port, Handler, LinkRef, Host) end),
+    Pid = proc_lib:spawn_link(fun() -> new_listener_loop(Address, AddressType, Port, Handler, LinkRef, Host) end),
 
     receive
 
@@ -803,7 +803,7 @@ serve(PropListOptions) when is_list(PropListOptions) ->
 
 serve(Options) ->
 
-    spawn(fun() -> bootstrap_loop(Options) end).
+    proc_lib:spawn(fun() -> bootstrap_loop(Options) end).
 
 
 
