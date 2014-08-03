@@ -3,10 +3,7 @@
   {description, ""},
   {vsn, "1"},
   {registered, []},
-  {applications, [
-                  kernel,
-                  stdlib
-                 ]},
+  {applications, [kernel, stdlib, sc, sasl, inets]},
   {mod, { htstub_app, []}},
   {env, []}
  ]}.

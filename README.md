@@ -61,10 +61,8 @@ Now hit [localhost:8081](http://localhost:8081) in a browser, and you should see
 
 
 
-What about route params, you ask?
----------------------------------
-
-Done.
+What about route parameters?
+----------------------------
 
 ```erlang
 handler( Params, Req ) ->
