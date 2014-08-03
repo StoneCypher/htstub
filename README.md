@@ -3,6 +3,13 @@ htstub
 
 The HtStub erlang application webserver.
 
+![Language](http://img.shields.io/badge/Language-Erlang-000000.svg) &nbsp;
+![Platform](http://img.shields.io/badge/Platform-OTP-000000.svg) &nbsp;
+![License](http://img.shields.io/badge/License-MIT-000055.svg) &nbsp;
+![Status](http://img.shields.io/travis/StoneCypher/htstub.svg) &nbsp;
+![Release](http://img.shields.io/github/release/StoneCypher/htstub.svg) &nbsp;
+[![Issues](http://img.shields.io/github/issues/StoneCypher/htstub.svg)](https://github.com/StoneCypher/htstub/issues)
+
 
 
 tl;dr
