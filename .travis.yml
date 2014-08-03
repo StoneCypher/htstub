@@ -1,0 +1,9 @@
+language: erlang
+notifications:
+  irc: "irc.blitzed.org#stonecypher-builds"
+  recipients:
+    - stonecypher@gmail.com
+otp_release:
+  - 17.1
+  - 17.0
+  - R16B03-1
