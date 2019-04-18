@@ -453,8 +453,8 @@ parse_body(ConnectedSocket, Body, Path, Protocol, Method, PHeaders) ->
 
 parse_body(ConnectedSocket, Body, Path, Protocol, Method, PHeaders, CurrentLength, BodyLength) when CurrentLength < BodyLength ->
 
-    {ok,NewRecv} = gen_tcp:recv(ConnectedSocket, 0),
-    parse_body(ConnectedSocket, Body ++ NewRecv, Path, Protocol, Method, PHeaders, CurrentLength+length(NewRecv), BodyLength);
+    {ok, NewRecv} = gen_tcp:recv(ConnectedSocket, 0),
+    parse_body(ConnectedSocket, [Body | NewRecv], Path, Protocol, Method, PHeaders, CurrentLength+size(NewRecv), BodyLength);
 
 
 
@@ -512,7 +512,7 @@ body_reformat(Body, Path, Protocol, Method, PHeaders, BodyLength) ->
             parsed=parse_uri(PPath),
             method=Method,
             pheaders=PHeaders,
-            body=Body,
+            body=iolist_to_binary(Body),
             body_length=BodyLength
           }
     }.
@@ -919,7 +919,7 @@ rest(Config) when is_record(Config, htstub_config) ->
 
 
 
-rest(RestHandler, Port) when is_function(RestHandler), is_integer(Port) ->
+rest(RestHandler, Port) when is_function(RestHandler, 3), is_integer(Port) ->
 
     serve(restify(RestHandler), Port).
 
