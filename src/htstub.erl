@@ -403,6 +403,12 @@ return_result(ConnectedSocket, {Status, Response}) when is_integer(Status), is_l
 
 
 
+return_result(ConnectedSocket, {Status, Response}) when is_integer(Status), is_binary(Response) ->
+
+    return_result(ConnectedSocket, {Status, binary_to_list(Response)})
+
+
+
 
 return_result(ConnectedSocket, {Status, Headers, Response}) ->
 
